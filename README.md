@@ -156,5 +156,6 @@ sudo certbot --nginx
 ![image](https://github.com/user-attachments/assets/5cc7c397-e753-4de9-a350-4d8a435d2bbd)
 
 Visit your website to confirm SSL has been successfully installed
+![image](https://github.com/user-attachments/assets/b76a30b2-2727-4e64-8d5b-c74d9092962b)
 
 
