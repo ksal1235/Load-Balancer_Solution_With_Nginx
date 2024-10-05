@@ -155,7 +155,40 @@ sudo certbot --nginx
 ```
 ![image](https://github.com/user-attachments/assets/5cc7c397-e753-4de9-a350-4d8a435d2bbd)
 
-Visit your website to confirm SSL has been successfully installed
+Visit your website to confirm SSL has been successfully installed.
 ![image](https://github.com/user-attachments/assets/b76a30b2-2727-4e64-8d5b-c74d9092962b)
 
+Check the certificate on Browser.
+![image](https://github.com/user-attachments/assets/42087f2e-3b64-4ab0-8c70-60ab6d36d436)
 
+
+# Note: Letsencrypt ssl certificate is usually valid for 90 days, in order to make this continually renew itself, this can be achieved using a service known as Cron Job;
+
+A cron job is a scheduled task on Unix-like operating systems, such as Linux. The cron service runs these scheduled tasks at specified times and intervals. Cron jobs are useful for automating repetitive tasks, such as system maintenance, backups, and running scripts.
+
+First test the renewal command
+
+```
+sudo certbot renew --dry-run
+```
+
+![image](https://github.com/user-attachments/assets/146caf36-5cf7-45ba-a1b3-8f85106a6dec)
+
+Setting up a cron job to automate checking the server for ssl and renewal constantly.
+
+#### Edit the cron tab.
+
+```
+    crontab -e
+```
+![image](https://github.com/user-attachments/assets/340f5144-e448-4c2b-95dd-35c3c5a0b5cc)
+
+Add the following line.
+
+```
+    * */12 * * *   root /usr/bin/certbot renew > /dev/null 2>&1
+```
+![image](https://github.com/user-attachments/assets/795efb69-c606-4bde-a72a-8e81bfd203e2)
+
+
+We have now successfuly configured a Nginx based Load Balancer for our webservers, ensured it can be accessed by a domain name and has SSL installed for security.
