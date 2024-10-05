@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/07c33635-08f1-4b06-a7f8-0732a245ea75)# Load-Balancer_Solution_With_Nginx
+# Load-Balancer_Solution_With_Nginx
 
 
 - By now we have learned what Load Balancing is used for and have configured an LB solution using Apache, but a DevOps engineer must be a versatile professional and know different alternative solutions for the same problem. That is why, in this project we will configure an Nginx Load Balancer solution.
@@ -77,7 +77,8 @@ http {
 ```
 Replace your already purchased domain name in the section for domain name, save and exit
 
-![image](https://github.com/user-attachments/assets/ba4ffb35-b58c-4ea2-80d8-91d9cc74b265)
+![image](https://github.com/user-attachments/assets/d6baa79d-557b-404d-bfe1-d2baab29aba0)
+
 
 ```
 sudo systemctl restart nginx
@@ -98,5 +99,62 @@ sudo systemctl status nginx
 
 We might have noticed, that every time we restart or stop/start EC2 instance - We get a new public IP address. When we want to associate we domain name - it is better to have a static IP address that does not change after reboot. Elastic IP is the solution for this problem, learn how to allocate an Elastic IP and associate it with an EC2 server on this page.
 
+3. Update A record in registrar to point to Nginx LB using Elastic IP address.
+
+
+Adding records inside the Hosted Zone;
+
+![image](https://github.com/user-attachments/assets/25e62c18-3bcc-448d-97ff-8f1fbdccd737)
+
+4. Configure Nginx to recognize your new domain name.
+
+```
+sudo vi /etc/nginx/nginx.conf
+```
+![image](https://github.com/user-attachments/assets/29eaca5b-d29e-47a4-84f8-32abb56b52b3)
+
+After do configuration insdie the nginx.conf need to check the syntax
+
+```
+sudo nginx -t
+```
+Reload the changes.
+
+```
+sudo systemctl reload nginx
+```
+
+Accessing the domain on web-browser;
+
+![image](https://github.com/user-attachments/assets/a8104246-13fd-454e-8c45-36e5d9b6b623)
+
+5. Install certbot and request for an SSL/TLS certificate.
+
+- Ensure 'snapd' service is active and running
+
+```
+sudo systemctl status snapd
+```
+
+![image](https://github.com/user-attachments/assets/2f6af894-e055-4276-9dd3-8461f80aa917)
+
+- Install certbot using snapd package manager.
+```
+ sudo snap install --classic certbot
+```
+
+- Create a symlink for certbot.
+
+````
+     sudo ln -s /snap/bin/certbot /usr/bin/certbot
+````
+
+- Follow the prompt to configure and request for ssl certificate.
+```
+sudo certbot --nginx
+```
+![image](https://github.com/user-attachments/assets/5cc7c397-e753-4de9-a350-4d8a435d2bbd)
+
+Visit your website to confirm SSL has been successfully installed
 
 
